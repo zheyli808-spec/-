@@ -49,5 +49,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Dooog.Core\Dooog.Core.csproj">
+      <Project>{dab644ee-0990-4b50-a40a-75164b76effe}</Project>
+      <Name>Dooog.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
