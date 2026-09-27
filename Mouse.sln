@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.36414.22 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dooog.Core", "Dooog.Core\Dooog.Core.csproj", "{DAB644EE-0990-4B50-A40A-75164B76EFFE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mouse.Core", "Dooog.Core\Mouse.Core.csproj", "{DAB644EE-0990-4B50-A40A-75164B76EFFE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dooog.Console", "Dooog.Console\Dooog.Console.csproj", "{89D93B40-D66B-4D5B-B97E-44F644553FC8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mouse.Console", "Dooog.Console\Mouse.Console.csproj", "{89D93B40-D66B-4D5B-B97E-44F644553FC8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Doog.WinForms", "Doog.WinForms\Doog.WinForms.csproj", "{400EDB2E-924E-4359-B262-C2B9AB7C06B5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mouse.WinForms", "Doog.WinForms\Mouse.WinForms.csproj", "{400EDB2E-924E-4359-B262-C2B9AB7C06B5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

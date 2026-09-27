@@ -1,146 +1,152 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Doog.Core.Models;
-namespace Doog.Core
+
+using MouseModel = Mouse.Core.Models.Mouse;
+
+namespace Mouse.Core
 {
     // Класс Logic содержит всю бизнес-логику приложения.
-    // Console и WinForms работают с собаками через этот класс.
+    // Console и WinForms работают с мышками через этот класс.
     public class Logic
     {
-        // Коллекция всех собак.
-        private readonly List<Dog> _dogs = new List<Dog>();
+        // Коллекция всех мышек.
+        private readonly System.Collections.Generic.List<MouseModel> _mice =
+    new System.Collections.Generic.List<MouseModel>();
 
         // Счётчик для автоматической генерации ID.
         private int _nextId = 1;
 
-        // СОЗДАНИЕ СОБАКИ
-        public Dog CreateDog(
+
+        // СОЗДАНИЕ МЫШКИ
+
+        public MouseModel CreateMouse(
             string name,
-            string breed,
+            string color,
             int age,
             double weight,
             bool isVaccinated)
         {
-            // Создаём новую собаку.
-            Dog dog = new Dog(
+            // Создаём новую мышку.
+            MouseModel mouse = new MouseModel(
                 _nextId,
                 name,
-                breed,
+                color,
                 age,
                 weight,
                 isVaccinated
             );
 
-            // Добавляем собаку в коллекцию.
-            _dogs.Add(dog);
+            // Добавляем мышку в коллекцию.
+            _mice.Add(mouse);
 
-            // Увеличиваем ID для следующей собаки.
+            // Увеличиваем ID для следующей мышки.
             _nextId++;
 
-            // Возвращаем созданную собаку.
-            return dog;
+            // Возвращаем созданную мышку.
+            return mouse;
         }
 
-        // ПОЛУЧЕНИЕ ВСЕХ СОБАК
-        
-        public List<Dog> GetAllDogs()
+
+        // ПОЛУЧЕНИЕ ВСЕХ МЫШЕК
+
+        public List<MouseModel> GetAllMice()
         {
             // Возвращаем копию списка,
             // чтобы внешний код не изменял внутреннюю коллекцию.
-            return new List<Dog>(_dogs);
+            return new List<MouseModel>(_mice);
         }
 
 
-        // ПОЛУЧЕНИЕ СОБАКИ ПО ID
+        // ПОЛУЧЕНИЕ МЫШКИ ПО ID
 
-        public Dog GetDogById(int id)
+        public MouseModel GetMouseById(int id)
         {
-            // Ищем первую собаку с указанным ID.
-            // Если собака не найдена, вернётся null.
-            return _dogs.FirstOrDefault(dog => dog.Id == id);
+            // Ищем мышку с указанным ID.
+            // Если мышка не найдена, вернётся null.
+            return _mice.FirstOrDefault(mouse => mouse.Id == id);
         }
 
 
-        // ИЗМЕНЕНИЕ СОБАКИ
+        // ИЗМЕНЕНИЕ МЫШКИ
 
-        public bool UpdateDog(
+        public bool UpdateMouse(
             int id,
             string name,
-            string breed,
+            string color,
             int age,
             double weight,
             bool isVaccinated)
         {
-            // Находим собаку по ID.
-            Dog dog = GetDogById(id);
+            // Находим мышку по ID.
+            MouseModel mouse = GetMouseById(id);
 
-            // Если собака не найдена,
+            // Если мышка не найдена,
             // сообщаем вызывающему коду об ошибке.
-            if (dog == null)
+            if (mouse == null)
             {
                 return false;
             }
 
-            // Изменяем данные найденной собаки.
-            dog.Name = name;
-            dog.Breed = breed;
-            dog.Age = age;
-            dog.Weight = weight;
-            dog.IsVaccinated = isVaccinated;
+            // Изменяем данные найденной мышки.
+            mouse.Name = name;
+            mouse.Color = color;
+            mouse.Age = age;
+            mouse.Weight = weight;
+            mouse.IsVaccinated = isVaccinated;
 
             // Изменение прошло успешно.
             return true;
         }
 
-        // УДАЛЕНИЕ СОБАКИ
 
+        // УДАЛЕНИЕ МЫШКИ
 
-        public bool DeleteDog(int id)
+        public bool DeleteMouse(int id)
         {
-            // Находим собаку по ID.
-            Dog dog = GetDogById(id);
+            // Находим мышку по ID.
+            MouseModel mouse = GetMouseById(id);
 
-            // Если собака не найдена,
+            // Если мышка не найдена,
             // удалить её невозможно.
-            if (dog == null)
+            if (mouse == null)
             {
                 return false;
             }
 
-            // Удаляем собаку из коллекции.
-            _dogs.Remove(dog);
+            // Удаляем мышку из коллекции.
+            _mice.Remove(mouse);
 
             // Удаление прошло успешно.
             return true;
         }
 
+
         // БИЗНЕС-ФУНКЦИЯ №1
-        // ПОИСК СОБАК ПО ПОРОДЕ
+        // ПОИСК МЫШЕК ПО ЦВЕТУ
 
-
-        public List<Dog> GetDogsByBreed(string breed)
+        public List<MouseModel> GetMiceByColor(string color)
         {
-            // Находим всех собак указанной породы.
-            // OrdinalIgnoreCase позволяет не учитывать регистр.
-            return _dogs
-                .Where(dog =>
-                    dog.Breed.Equals(
-                        breed,
+            // Находим всех мышек указанного цвета.
+            // Регистр букв не учитывается.
+            return _mice
+                .Where(mouse =>
+                    mouse.Color.Equals(
+                        color,
                         StringComparison.OrdinalIgnoreCase))
                 .ToList();
         }
 
+
         // БИЗНЕС-ФУНКЦИЯ №2
-        // ПОЛУЧЕНИЕ ПРИВИТЫХ СОБАК
+        // ПОЛУЧЕНИЕ ПРИВИТЫХ МЫШЕК
 
-
-        public List<Dog> GetVaccinatedDogs()
+        public List<MouseModel> GetVaccinatedMice()
         {
-            // Оставляем только собак,
+            // Оставляем только мышек,
             // у которых IsVaccinated равен true.
-            return _dogs
-                .Where(dog => dog.IsVaccinated)
+            return _mice
+                .Where(mouse => mouse.IsVaccinated)
                 .ToList();
         }
     }
