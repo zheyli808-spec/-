@@ -77,7 +77,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Dooog.Core\Dooog.Core.csproj">
+    <ProjectReference Include="..\Dooog.Core\Mouse.Core.csproj">
       <Project>{dab644ee-0990-4b50-a40a-75164b76effe}</Project>
       <Name>Mouse.Core</Name>
     </ProjectReference>
