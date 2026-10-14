@@ -16,6 +16,9 @@ namespace Mouse.ConsoleApp
 
             while (running)
             {
+
+                Console.Clear();
+
                 Console.WriteLine();
                 Console.WriteLine("================================");
                 Console.WriteLine("       УПРАВЛЕНИЕ МЫШКАМИ");
@@ -27,6 +30,7 @@ namespace Mouse.ConsoleApp
                 Console.WriteLine("5. Удалить мышку");
                 Console.WriteLine("6. Найти мышек по цвету");
                 Console.WriteLine("7. Показать привитых мышек");
+                Console.WriteLine("8. Показать средний вес мышек");
                 Console.WriteLine("0. Выход");
                 Console.WriteLine("================================");
                 Console.Write("Выберите действие: ");
@@ -65,6 +69,10 @@ namespace Mouse.ConsoleApp
                             ShowVaccinated(logic);
                             break;
 
+                        case "8":
+                            ShowAverageWeight(logic);
+                            break;
+
                         case "0":
                             running = false;
                             Console.WriteLine("Программа завершена.");
@@ -94,7 +102,11 @@ namespace Mouse.ConsoleApp
         }
 
 
-        // ВВОД ДАННЫХ НОВОЙ МЫШКИ
+        /// <summary>
+        /// Запрашивает у пользователя данные новой мышки,
+        /// создаёт мышку и выводит информацию о ней в консоль
+        /// </summary>
+        /// <param name="logic">Объект бизнес-логики для создания новой мышки</param>
         static void CreateMouse(Logic logic)
         {
             Console.WriteLine("\n--- СОЗДАНИЕ МЫШКИ ---");
@@ -102,7 +114,7 @@ namespace Mouse.ConsoleApp
             string name = ReadText("Имя: ");
             string color = ReadColor();
             int age = ReadInt("Возраст: ");
-            double weight = ReadDouble("Вес в кг: ");
+            double weight = ReadDouble("Вес в гр: ");
             bool vaccinated = ReadBool("Привита? (да/нет): ");
 
             MouseModel mouse = logic.CreateMouse(
@@ -112,7 +124,13 @@ namespace Mouse.ConsoleApp
             Console.WriteLine(mouse);
         }
 
-        // ВЫВОД ВСЕХ МЫШЕК
+        /// <summary>
+        /// Получает и выводит в консоль список всех мышек,
+        /// если список пуст, выводит соответствующее сообщение
+        /// </summary>
+        /// <param name="logic">
+        /// Объект бизнес-логики для получения списка мышек
+        /// </param>
         static void ShowAllMice(Logic logic)
         {
             Console.WriteLine("\n--- ВСЕ МЫШКИ ---");
@@ -131,26 +149,42 @@ namespace Mouse.ConsoleApp
             }
         }
 
-        // ПОИСК ПО ID
+        /// <summary>
+        /// Поиск мышки по ID
+        /// </summary>
+        /// <param name="logic">Объект бизнес-логики для поиска мышки по ID</param>
         static void FindMouse(Logic logic)
         {
-            Console.WriteLine("\n--- ПОИСК МЫШКИ ---");
+            Console.WriteLine("\n--- ПОИСК МЫШКИ ПО ID ---");
 
-            int id = ReadInt("Введите ID: ");
+            ShowAllMice(logic);
+
+            int id = ReadInt("Введите ID мышки: ");
             MouseModel mouse = logic.GetMouseById(id);
 
             if (mouse == null)
+            {
                 Console.WriteLine("Мышка не найдена.");
+            }
             else
+            {
+                Console.WriteLine("\nНайденная мышка:");
                 Console.WriteLine(mouse);
+            }
         }
 
-        // ИЗМЕНЕНИЕ МЫШКИ
+
+        /// <summary>
+        /// Метод для изменения мышки
+        /// </summary>
+        /// <param name="logic">Объект бизнес-логики для изменения мышки</param>
         static void UpdateMouse(Logic logic)
         {
             Console.WriteLine("\n--- ИЗМЕНЕНИЕ МЫШКИ ---");
 
-            int id = ReadInt("ID мышки: ");
+            ShowAllMice(logic);
+
+            int id = ReadInt("Введите ID мышки для изменения: ");
             MouseModel mouse = logic.GetMouseById(id);
 
             if (mouse == null)
@@ -166,18 +200,29 @@ namespace Mouse.ConsoleApp
             string name = ReadText("Новое имя: ");
             string color = ReadColor();
             int age = ReadInt("Новый возраст: ");
-            double weight = ReadDouble("Новый вес в кг: ");
+            double weight = ReadDouble("Новый вес в гр: ");
             bool vaccinated = ReadBool("Привита? (да/нет): ");
 
             bool result = logic.UpdateMouse(
                 id, name, color, age, weight, vaccinated);
 
-            Console.WriteLine(result
-                ? "Данные успешно изменены."
-                : "Мышка не найдена.");
+            if (result)
+            {
+                Console.WriteLine("\nДанные успешно изменены.");
+
+                Console.WriteLine("\nСписок мышек после изменения:");
+                ShowAllMice(logic);
+            }
+            else
+            {
+                Console.WriteLine("Мышка не найдена.");
+            }
         }
 
-        // УДАЛЕНИЕ МЫШКИ
+        /// <summary>
+        /// Метод для удаления мышки
+        /// </summary>
+        /// <param name="logic">Объект бизнес-логики для удаления мышки</param>
         static void DeleteMouse(Logic logic)
         {
             Console.WriteLine("\n--- УДАЛЕНИЕ МЫШКИ ---");
@@ -191,12 +236,15 @@ namespace Mouse.ConsoleApp
                 : "Мышка не найдена.");
         }
 
-        // БИЗНЕС-ФУНКЦИЯ: ПОИСК ПО ЦВЕТУ
+        /// <summary>
+        /// Методля для поиска мышек по цвету
+        /// </summary>
+        /// <param name="logic">Объект бизнес-логики для поиска мышек по цвету</param>
         static void FindByColor(Logic logic)
         {
-            Console.WriteLine("\n--- ПОИСК ПО ЦВЕТУ ---");
+            Console.WriteLine("\n--- ПОИСК МЫШЕК ПО ЦВЕТУ ---");
 
-            string color = ReadText("Введите цвет: ");
+            string color = ReadColor();
             List<MouseModel> mice = logic.GetMiceByColor(color);
 
             if (mice.Count == 0)
@@ -205,13 +253,19 @@ namespace Mouse.ConsoleApp
                 return;
             }
 
+            Console.WriteLine($"\nМышки цвета «{color}»:");
+
             foreach (MouseModel mouse in mice)
             {
                 Console.WriteLine(mouse);
             }
         }
 
-        // БИЗНЕС-ФУНКЦИЯ: ПРИВИТЫЕ МЫШКИ
+
+        /// <summary>
+        /// Метод для поиска привитых мышек и их вывода
+        /// </summary>
+        /// <param name="logic">Объект бизнес-логики для поиска привитых/непривитых мышек</param>
         static void ShowVaccinated(Logic logic)
         {
             Console.WriteLine("\n--- ПРИВИТЫЕ МЫШКИ ---");
@@ -230,8 +284,37 @@ namespace Mouse.ConsoleApp
             }
         }
 
-        // ВСПОМОГАТЕЛЬНЫЕ МЕТОДЫ ВВОДА
 
+        /// <summary>
+        /// Вычисляет и выводит средний вес всех мышек.
+        /// </summary>
+        /// <param name="logic">Объект бизнес-логики приложения.</param>
+        static void ShowAverageWeight(Logic logic)
+        {
+            Console.WriteLine("\n--- СРЕДНИЙ ВЕС МЫШЕК ---");
+
+            List<MouseModel> mice = logic.GetAllMice();
+
+            if (mice.Count == 0)
+            {
+                Console.WriteLine("Список мышек пуст.");
+                return;
+            }
+
+            double averageWeight = logic.GetAverageWeight();
+
+            Console.WriteLine(
+                $"Средний вес мышек: {averageWeight:F3} гр");
+        }
+
+
+
+        /// <summary>
+        /// Запрашивает у пользователя текст и проверяет,
+        /// что введённая строка не пустая
+        /// </summary>
+        /// <param name="message">Сообщение, выводимое перед вводом</param>
+        /// <returns>Введённый текст без пробелов в начале и конце</returns>
         static string ReadText(string message)
         {
             while (true)
@@ -246,6 +329,12 @@ namespace Mouse.ConsoleApp
             }
         }
 
+        /// <summary>
+        /// Запрашивает у пользователя целое число
+        /// и повторяет ввод при неправильном формате
+        /// </summary>
+        /// <param name="message">Сообщение, выводимое перед вводом</param>
+        /// <returns>Введённое целое число</returns>
         static int ReadInt(string message)
         {
             while (true)
@@ -259,6 +348,12 @@ namespace Mouse.ConsoleApp
             }
         }
 
+        /// <summary>
+        /// Запрашивает у пользователя вещественное число
+        /// и поддерживает ввод с точкой или запятой
+        /// </summary>
+        /// <param name="message">Сообщение, выводимое перед вводом</param>
+        /// <returns>Введённое вещественное число</returns>
         static double ReadDouble(string message)
         {
             while (true)
@@ -266,7 +361,6 @@ namespace Mouse.ConsoleApp
                 Console.Write(message);
                 string input = Console.ReadLine();
 
-                // Поддерживаем ввод и 0,03, и 0.03.
                 input = input.Replace('.', ',');
 
                 if (double.TryParse(input, out double value) &&
@@ -278,6 +372,12 @@ namespace Mouse.ConsoleApp
             }
         }
 
+        /// <summary>
+        /// Запрашивает у пользователя ответ о наличии прививки,
+        /// принимает значения «да» и «нет» без учёта регистра.
+        /// </summary>
+        /// <param name="message">Сообщение, выводимое перед вводом</param>
+        /// <returns>true, если ответ «да», иначе false</returns>
         static bool ReadBool(string message)
         {
             while (true)
@@ -297,6 +397,11 @@ namespace Mouse.ConsoleApp
             }
         }
 
+        /// <summary>
+        /// Выводит список доступных цветов мышек
+        /// и запрашивает у пользователя номер выбранного цвета
+        /// </summary>
+        /// <returns>Название выбранного цвета</returns>
         static string ReadColor()
         {
             while (true)
@@ -317,8 +422,7 @@ namespace Mouse.ConsoleApp
                 {
                     return Logic.MouseColors[number - 1];
                 }
-
-                Console.WriteLine("Нет такого номера. Попробуйте ещё раз.");
+                else Console.WriteLine("Нет такого номера. Попробуйте ещё раз.");
             }
         }
 
