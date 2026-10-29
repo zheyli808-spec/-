@@ -1,0 +1,9 @@
+﻿CREATE TABLE Mice
+(
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    Name NVARCHAR(100) NOT NULL,
+    Color NVARCHAR(50) NOT NULL,
+    Age INT NOT NULL,
+    Weight FLOAT NOT NULL,
+    IsVaccinated BIT NOT NULL
+);

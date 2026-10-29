@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>dab644ee-0990-4b50-a40a-75164b76effe</ProjectGuid>
+    <ProjectGuid>{DAB644EE-0990-4B50-A40A-75164B76EFFE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Dooog.Core</RootNamespace>
@@ -33,18 +33,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    
-    
     <Reference Include="Microsoft.CSharp" />
-    
     <Reference Include="System.Data" />
-    
     <Reference Include="System.Net.Http" />
-    
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -52,8 +47,12 @@
     <Compile Include="models\Mouse.cs" />
     <Compile Include="Logic.cs" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="models\" />
+    <ProjectReference Include="..\Mouse.Interfaces\Mouse.Interfaces.csproj">
+      <Project>{a941e2f3-ccf6-4ae1-896c-4544ed90fb76}</Project>
+      <Name>Mouse.Interfaces</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
- </Project>
+</Project>

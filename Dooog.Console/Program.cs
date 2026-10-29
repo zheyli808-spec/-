@@ -1,8 +1,11 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Mouse.Core;
 using MouseModel = Mouse.Core.Models.Mouse;
+using Mouse.DataAccessLayer;
+using Mouse.Core.Models;
+using Mouse.Interfaces;
+
 
 namespace Mouse.ConsoleApp
 {
@@ -10,7 +13,16 @@ namespace Mouse.ConsoleApp
     {
         static void Main(string[] args)
         {
-            Logic logic = new Logic();
+            DBContext context = new DBContext();
+            IRepository<MouseModel> repository =
+                new EntityRepository<MouseModel>(context);
+            Logic logic = new Logic(repository);
+
+            //IRepository<MouseModel> repository =
+            //   new DapperRepository<MouseModel>();
+
+            //Logic logic = new Logic(repository);
+
 
             bool running = true;
 

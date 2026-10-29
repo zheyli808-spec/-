@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MouseModel = Mouse.Core.Models.Mouse;
+using Mouse.DataAccessLayer;
+using Mouse.Interfaces;
 
 
 namespace Doog.WinForms
@@ -17,11 +19,23 @@ namespace Doog.WinForms
     {
 
 
-        private readonly Logic logic = new Logic();
+        private readonly Logic logic;
 
         public Form1()
         {
             InitializeComponent();
+
+            //DBContext context = new DBContext();
+
+            //IRepository<MouseModel> repository =
+            //    new EntityRepository<MouseModel>(context);
+
+            //logic = new Logic(repository);
+
+            IRepository<MouseModel> repository =
+                 new DapperRepository<MouseModel>();
+
+            logic = new Logic(repository);
 
             cmbColor.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbColor.Items.Clear();
